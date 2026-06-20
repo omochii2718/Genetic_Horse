@@ -14,7 +14,7 @@ public class GeneticManager : MonoBehaviour
     public GameObject agentPrefab;
     public bool alive = true;
     public float cooltime;
-    static int populationSize = 100;//並列にシミュレーションさせるエージェント数
+    static int populationSize = 50;//並列にシミュレーションさせるエージェント数
     public static int Legnum =4;//足の数
     public static int Bonenum = 2;
 
@@ -25,15 +25,15 @@ public class GeneticManager : MonoBehaviour
     {
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].genes = new float[Legnum*Bonenum*2]
-            for (int j = 0; j < Legnum*Bonenum*2; j++)
+            population[i].genes = new float[50];
+            for (int j = 0; j < 32; j++)
             {   
                 population[i].genes[j] = UnityEngine.Random.Range(-10f, 10f);
             }
         }
         for (int i = 0; i < population.Length; i++)
         {
-            agents[i] = Instantiate(agentPrefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
+            agents[i] = Instantiate(agentPrefab, new Vector3(i * 3.0f, 0, 0), Quaternion.identity);
             agents[i].GetComponent<Agent>().assignv(population[i].genes);
         }
         cooltime = Time.time;
@@ -54,18 +54,18 @@ public class GeneticManager : MonoBehaviour
                 elite[0] = population[i];
                 indexElite = i;
             }
-            Debug.Log(elite[0].genes[0]);
             // 最も優れた個体のindexを保存
         }
         population[indexElite].fitness = float.MinValue;//次のエリート選別で同じ個体が選ばれないように
 
         //selection
-        for (int i = 0; i < elite.Length; i++)
+        for (int i = 1; i < elite.Length; i++)
         {
+            elite[i].fitness = float.MinValue;
             for (int j = 0; j < populationSize; j++)
             {
                 if (population[j].fitness > elite[i].fitness)
-                {
+                {  
                     elite[i] = population[j];
                     indexElite = j;
                 }
@@ -74,7 +74,7 @@ public class GeneticManager : MonoBehaviour
             // 上位１０体のindexを保存
         }
 
-        population[0] = elite[0];//最優良個体を次世代に引き継ぐ
+        population[0] = elite[0];//最優良個体を次世代に引き継
 
         for (int i = 1; i < populationSize; i++)//crossover
         {
@@ -96,7 +96,7 @@ public class GeneticManager : MonoBehaviour
         //mutation
         for (int i = 0; i < populationSize; ++i)
         {
-            for (int j = 0; j < population[i].genes.length; j++)
+            for (int j = 0; j < population[i].genes.Length; j++)
             {
                 if (UnityEngine.Random.Range(0, 20) == 0)
                 {
@@ -116,7 +116,7 @@ public class GeneticManager : MonoBehaviour
             rb.transform.eulerAngles = Vector3.zero; // 傾きリセット
             rb.angularVelocity = Vector3.zero; // 角速度をリセット
             rb.linearVelocity = Vector3.zero; //速度をリセット
-            agents[i].GetComponent<Agent>().transform.position = new Vector3(i * 2.0f, 0, 0); // 元の場所に呼び戻す
+            agents[i].GetComponent<Agent>().transform.position = new Vector3(i * 3.0f, 0, 0); // 元の場所に呼び戻す
         }
     }
 
