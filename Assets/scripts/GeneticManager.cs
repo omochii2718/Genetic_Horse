@@ -1,4 +1,3 @@
-using GeneticSharp.Domain.Populations;
 using JetBrains.Annotations;
 using System;
 using System.CodeDom.Compiler;
@@ -15,17 +14,19 @@ public class GeneticManager : MonoBehaviour
     public GameObject agentPrefab;
     public bool alive = true;
     public float cooltime;
-    static int populationSize = 50;
-    public static int BoneLength = 1;
+    static int populationSize = 100;//並列にシミュレーションさせるエージェント数
+    public static int Legnum =4;//足の数
+    public static int Bonenum = 2;
 
     Chromosome[] population = new Chromosome[populationSize];
     GameObject[] agents = new GameObject[populationSize];
+    //agentsと染色体は
     void Start()
     {
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].genes = new float[20];
-            for (int j = 0; j < 8; j++)
+            population[i].genes = new float[Legnum*Bonenum*2]
+            for (int j = 0; j < Legnum*Bonenum*2; j++)
             {   
                 population[i].genes[j] = UnityEngine.Random.Range(-10f, 10f);
             }
@@ -92,7 +93,18 @@ public class GeneticManager : MonoBehaviour
             }
         }
 
-        //mutationはあとから実装
+        //mutation
+        for (int i = 0; i < populationSize; ++i)
+        {
+            for (int j = 0; j < population[i].genes.length; j++)
+            {
+                if (UnityEngine.Random.Range(0, 20) == 0)
+                {
+                    population[i].genes[j] = UnityEngine.Random.Range(-10f, 10f);
+                }
+            }
+        }
+
     }
 
     void generate()
