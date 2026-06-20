@@ -8,6 +8,7 @@ public class BoneBehavior : MonoBehaviour
     private float v_x, v_y, v_z, radius, phase;
 
     private Rigidbody rb;
+    public float downwardForce = 10f;
 
     private void Start()
     {
@@ -36,5 +37,15 @@ public class BoneBehavior : MonoBehaviour
     private void FixedUpdate()
     {
         rb.AddTorque(new Vector3(v_x, v_y, v_z) *Mathf.Cos(phase + radius)*3);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // ぶつかった相手のタグが "Ground"（地面）かどうかを確認
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            // Vector3.down（真下）に向かって力を加える
+            rb.AddForce(Vector3.down * downwardForce, ForceMode.Impulse);
+        }
     }
 }
