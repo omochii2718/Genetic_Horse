@@ -1,10 +1,8 @@
-//rankとhorseNameとfinishTimeをテキストに反映するだけのシンプルなコンポーネント
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ResultRowUI : MonoBehaviour {
-
+public class ResultRowUI : MonoBehaviour
+{
     public TMP_Text rankText;
     public TMP_Text horseNameText;
     public TMP_Text finishTimeText;
@@ -16,9 +14,10 @@ public class ResultRowUI : MonoBehaviour {
         finishTimeText.text = FormatTime(finishTime);
     }
 
-    string FormatTime(float seconds) {
+    string FormatTime(float seconds)
+    {
         int minutes = (int)(seconds / 60f);
         float remainingSeconds = seconds % 60f;
-        return $"{minutes}; {remainingSeconds:00.00}";
+        return $"{minutes}:{remainingSeconds:00.00}";
     }
 }

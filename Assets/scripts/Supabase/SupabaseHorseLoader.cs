@@ -1,23 +1,23 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class SupabaseHorseLoader : MonoBehaviour
 {
 
-    public void LoadAllHorses(System.Action<List<HorseData>> onLoaded)
+    public void LoadAllHorses(System.Action<List<HorseData>> onLoaded, System.Action<string> onError = null)
     {
-        StartCoroutine(GetHorses(onLoaded));
+        StartCoroutine(GetHorses(onLoaded, onError));
     }
 
-    IEnumerator GetHorses(System.Action<List<HorseData>> onLoaded)
+    IEnumerator GetHorses(System.Action<List<HorseData>> onLoaded, System.Action<string> onError)
     {
         string url = $"{SupabaseConfig.Url}/rest/v1/horses?select=*";
 
         var request = UnityWebRequest.Get(url);
         request.SetRequestHeader("apikey", SupabaseConfig.AnonKey);
-        request.SetRequestHeader("Authorization", $"Bearer {SupabaseConfig.AnonKey}");
+        request.SetRequestHeader("Authorization", $"Bearer {SupabaseAuth.Instance.AccessToken}");
 
         yield return request.SendWebRequest();
 
@@ -29,13 +29,9 @@ public class SupabaseHorseLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ì«Ç›çûÇ›é∏îs: " + request.error);
+            string errorMsg = request.error + " / " + request.downloadHandler.text;
+            Debug.LogError("ì«Ç›çûÇ›é∏îs: " + errorMsg);
+            onError?.Invoke(errorMsg);
         }
     }
-}
-
-[System.Serializable]
-public class HorseDataListWrapper
-{
-    public List<HorseData> items;
 }

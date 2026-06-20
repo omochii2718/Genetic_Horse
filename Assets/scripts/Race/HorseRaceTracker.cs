@@ -1,11 +1,11 @@
-//各馬のGameObjectに1つずつ付ける前提のスクリプト
 using UnityEngine;
-using System.Collections.Generic;
 
 public class HorseRaceTracker : MonoBehaviour
 {
     public string horseName;
+    public string modelName;
     public bool isPlayer;
+    public bool canMove = false;
     public bool hasFinished = false;
     public float finishTime;
 }
