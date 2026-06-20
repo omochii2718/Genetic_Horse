@@ -1,3 +1,4 @@
+//ƒS[ƒ‹‚µ‚½‡‚É‹L˜^‚µ‚Ä‚¢‚­‚¾‚¯‚Å’…‡‚ªŒˆ‚Ü‚é
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;

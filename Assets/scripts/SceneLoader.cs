@@ -1,3 +1,4 @@
+//ƒV[ƒ“ŠÇ—‚ğˆêŒ³‰»
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;

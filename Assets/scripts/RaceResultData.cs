@@ -1,3 +1,4 @@
+//Œ‹‰Êƒf[ƒ^‚Ìó‚¯“n‚µ
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

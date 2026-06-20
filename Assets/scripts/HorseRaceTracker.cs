@@ -1,3 +1,4 @@
+//各馬のGameObjectに1つずつ付ける前提のスクリプト
 using UnityEngine;
 using System.Collections.Generic;
 

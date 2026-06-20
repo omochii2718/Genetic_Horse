@@ -1,3 +1,4 @@
+//rankとhorseNameとfinishTimeをテキストに反映するだけのシンプルなコンポーネント
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
