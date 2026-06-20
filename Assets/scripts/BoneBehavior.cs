@@ -20,11 +20,12 @@ public class BoneBehavior : MonoBehaviour
     {
         v_x = genes[index_num];
         v_y = genes[index_num+1];
-        v_z = genes[index_num+2];//‚±‚ê‚í‚´‚í‚´‚â‚Á‚Ä‚ñ‚Ì‚Íagent‚ÌÀs‚ÆõF‘Ì‚ğ“n‚³‚ê‚é‰Û’ö‚ğ•ª—£‚³‚¹‚é‚½‚ß
+        v_z = genes[index_num+2];//ï¿½ï¿½ï¿½ï¿½í‚´ï¿½í‚´ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½Ì‚ï¿½agentï¿½Ìï¿½ï¿½sï¿½Æï¿½ï¿½Fï¿½Ì‚ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½Û’ï¿½ï¿½ğ•ª—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ï¿½
         radius = genes[index_num+3];
-        phase = 0;//OŠpŠÖ”‚ÌˆÊ‘Š‚ğƒŠƒZƒbƒg
+        phase = 0;//ï¿½Oï¿½pï¿½Öï¿½ï¿½ÌˆÊ‘ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+        this.transform.eulerAngles = new Vector3(0, 0, 0);
 
-        if (index_num +GeneticManager.Legnum*4 < GeneticManager.Legnum*GeneticManager.Bonenum*4)//õF‘Ì‚ÌãŒÀ‚Í‘«‚Ì”~‚»‚ê‚¼‚ê‚Ìƒ{[ƒ“”~4(O•ûŒü{üŠúj
+        if (index_num +GeneticManager.Legnum*4 < GeneticManager.Legnum*GeneticManager.Bonenum*4)//ï¿½ï¿½ï¿½Fï¿½Ì‚Ìï¿½ï¿½ï¿½Í‘ï¿½ï¿½Ìï¿½ï¿½~ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½Ìƒ{ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½~4(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½j
         {
             BoneBehavior child = transform.GetChild(0).gameObject.GetComponent<BoneBehavior>();
             child.SetVelocity(genes, index_num + 4*GeneticManager.Legnum);
