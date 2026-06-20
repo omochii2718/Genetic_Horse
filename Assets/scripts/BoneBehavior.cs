@@ -24,7 +24,7 @@ public class BoneBehavior : MonoBehaviour
         radius = genes[index_num+3];
         phase = 0;//三角関数の位相をリセット
 
-        if (index_num +4 < 8)//染色体の上限は足の数×それぞれのボーン数×4(三方向＋周期）
+        if (index_num +GeneticManager.Legnum*4 < GeneticManager.Legnum*GeneticManager.Bonenum*4)//染色体の上限は足の数×それぞれのボーン数×4(三方向＋周期）
         {
             BoneBehavior child = transform.GetChild(0).gameObject.GetComponent<BoneBehavior>();
             child.SetVelocity(genes, index_num + 4*GeneticManager.Legnum);
@@ -34,6 +34,6 @@ public class BoneBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        rb.AddTorque(new Vector3(v_x, v_y, v_z) *Mathf.Cos(phase + radius*Time.deltaTime));
+        rb.AddTorque(new Vector3(v_x, v_y, v_z) *Mathf.Cos(phase + radius)*3);
     }
 }
