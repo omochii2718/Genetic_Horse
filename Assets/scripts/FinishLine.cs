@@ -1,3 +1,4 @@
+//FinishLineにトリガーを置き、馬が通過したら順位を記録する
 using UnityEngine;
 using System.Collections.Generic;
 
