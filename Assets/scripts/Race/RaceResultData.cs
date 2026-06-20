@@ -1,21 +1,30 @@
-//åãâ ÉfÅ[É^ÇÃéÛÇØìnÇµ
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaceResultData:MonoBehaviour
+[System.Serializable]
+public class HorseResultEntry
 {
-    public static RaceResultData instance;
-    public List<HorseResultEntry> results = new();
+    public int rank;
+    public string horseName;
+    public float finishTime;
+}
 
-    private void Awake()
+public class RaceResultData : MonoBehaviour
+{
+    public static RaceResultData Instance;
+    public List<HorseResultEntry> results = new List<HorseResultEntry>();
+
+    void Awake()
     {
         if (Instance == null)
         {
-            Instance = this; DontDestroyOnLoad(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetResult(List<HorseRaceTracker> finishOrder)
@@ -31,12 +40,4 @@ public class RaceResultData:MonoBehaviour
             });
         }
     }
-}
-
-[System.Serializable]
-public class HorseResultEntry
-{
-    public int rank;
-    public string horseName;
-    public float finishTime;
 }

@@ -3,22 +3,16 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[System.Serializable]
-public class HorseData
-{
-    public string horse_name;
-    public float[] genome;
-}
-
 public class SupabaseHorseUploader : MonoBehaviour
 {
 
-    public void SaveHorse(HorseData data)
+    public void SaveHorse(HorseData data, System.Action onSuccess = null, System.Action<string> onError = null)
     {
-        StartCoroutine(PostHorse(data));
+        data.owner_user_id = SupabaseAuth.Instance.UserId;
+        StartCoroutine(PostHorse(data, onSuccess, onError));
     }
 
-    IEnumerator PostHorse(HorseData data)
+    IEnumerator PostHorse(HorseData data, System.Action onSuccess, System.Action<string> onError)
     {
         string json = JsonUtility.ToJson(data);
         string url = $"{SupabaseConfig.Url}/rest/v1/horses";
@@ -30,7 +24,7 @@ public class SupabaseHorseUploader : MonoBehaviour
 
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("apikey", SupabaseConfig.AnonKey);
-        request.SetRequestHeader("Authorization", $"Bearer {SupabaseConfig.AnonKey}");
+        request.SetRequestHeader("Authorization", $"Bearer {SupabaseAuth.Instance.AccessToken}");
         request.SetRequestHeader("Prefer", "return=representation");
 
         yield return request.SendWebRequest();
@@ -38,10 +32,13 @@ public class SupabaseHorseUploader : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("ï€ë∂ê¨å˜: " + request.downloadHandler.text);
+            onSuccess?.Invoke();
         }
         else
         {
-            Debug.LogError("ï€ë∂é∏îs: " + request.error + " / " + request.downloadHandler.text);
+            string errorMsg = request.error + " / " + request.downloadHandler.text;
+            Debug.LogError("ï€ë∂é∏îs: " + errorMsg);
+            onError?.Invoke(errorMsg);
         }
     }
 }
