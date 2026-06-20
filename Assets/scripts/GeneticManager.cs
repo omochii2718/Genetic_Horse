@@ -33,7 +33,7 @@ public class GeneticManager : MonoBehaviour
         }
         for (int i = 0; i < population.Length; i++)
         {
-            agents[i] = Instantiate(agentPrefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
+            agents[i] = Instantiate(agentPrefab, new Vector3(i * 3.0f, 0, 0), Quaternion.identity);
             agents[i].GetComponent<Agent>().assignv(population[i].genes);
         }
         cooltime = Time.time;
@@ -116,7 +116,7 @@ public class GeneticManager : MonoBehaviour
             rb.transform.eulerAngles = Vector3.zero; // 傾きリセット
             rb.angularVelocity = Vector3.zero; // 角速度をリセット
             rb.linearVelocity = Vector3.zero; //速度をリセット
-            agents[i].GetComponent<Agent>().transform.position = new Vector3(i * 2.0f, 0, 0); // 元の場所に呼び戻す
+            agents[i].GetComponent<Agent>().transform.position = new Vector3(i * 3.0f, 0, 0); // 元の場所に呼び戻す
         }
     }
 
