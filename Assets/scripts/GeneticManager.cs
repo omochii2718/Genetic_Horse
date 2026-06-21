@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.CodeDom.Compiler;
 using UnityEngine;
+using UnityEngine.UI;
 public class GeneticManager : MonoBehaviour
 {
     struct Chromosome//染色体のデータ構造、float配列は遺伝子の配列、fitnessは評価値
@@ -11,18 +12,31 @@ public class GeneticManager : MonoBehaviour
 
     }
 
+    
     public GameObject agentPrefab;
     public bool alive = true;
     public float cooltime;
+    public int simulationnum = 100;
+    public int current_simulationnum = 0;
     static int populationSize = 50;//並列にシミュレーションさせるエージェント数
     public static int Legnum =4;//足の数
     public static int Bonenum = 2;
 
+    public Slider Slider;
+    public float mutationRate = 0.02f; // 突然変異率 (0.0 〜 1.0)
     Chromosome[] population = new Chromosome[populationSize];
     GameObject[] agents = new GameObject[populationSize];
     //agentsと染色体は
     void Start()
     {
+        if (Slider != null)
+        {
+            // スライダーの値(0〜100%)を確率(0.0〜1.0)に変換
+            mutationRate = Slider.value / 100f;
+            Debug.Log($"Mutation Rate set to: {mutationRate} (Slider Value: {Slider.value}%)");
+        }
+
+        current_simulationnum++;
         for (int i = 0; i < population.Length; i++)
         {
             population[i].genes = new float[Legnum*Bonenum*3];
@@ -131,10 +145,9 @@ public class GeneticManager : MonoBehaviour
         {
             for (int j = 0; j < population[i].genes.Length; j++)
             {
-                if (UnityEngine.Random.Range(0, 50) == 0)
+                if (UnityEngine.Random.value <= mutationRate)
                 {
-                        population[i].genes[j] = UnityEngine.Random.Range(-90f, 90f);
-                    
+                    population[i].genes[j] = UnityEngine.Random.Range(-90f, 90f);
                 }
             }
         }
@@ -157,8 +170,23 @@ public class GeneticManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - cooltime > 10f)//三秒ごとに適宜評価する
+        if (Slider != null)
         {
+            // スライダーの値(0〜100%)を確率(0.0〜1.0)にリアルタイム反映
+            mutationRate = Slider.value / 100f;
+        }
+
+        if (Time.time - cooltime > 10f)//三秒ごとに適宜評価する
+        {   
+            if(current_simulationnum>=simulationnum)
+            {
+                //SupabaseHorseUploader.Instance.SaveHorce(population[0].genes)
+                foreach  (GameObject agent in agents) {
+                    Destroy(agent);
+                }
+                Destroy(this.gameObject);
+            }
+            current_simulationnum++;
             cooltime = Time.time;
             for (int i = 0; i < populationSize; i++)
             {
@@ -168,6 +196,7 @@ public class GeneticManager : MonoBehaviour
             generate();
 
         }
+
     }
 }
 
