@@ -36,6 +36,7 @@ public class BoneBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+<<<<<<< Updated upstream
         rb.AddTorque(new Vector3(v_x, v_y, v_z) *Mathf.Cos(phase + radius)*3);
     }
 
@@ -47,5 +48,9 @@ public class BoneBehavior : MonoBehaviour
             // Vector3.down（真下）に向かって力を加える
             rb.AddForce(Vector3.down * downwardForce, ForceMode.Impulse);
         }
+=======
+        phase += Time.deltaTime;
+        rb.transform.eulerAngles = new Vector3(v_x,v_y,0)*(Mathf.Cos(phase));
+>>>>>>> Stashed changes
     }
 }
