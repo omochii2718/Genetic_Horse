@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BootSequence : MonoBehaviour
 {
-    [SerializeField] private string nextSceneName = "01_Title";
+    //[SerializeField] private string nextSceneName = "01_HorseSelect";
+    [SerializeField] private string nextSceneName = "01_HorseSelect";       //遺伝的アルゴリズムのシーンに移動
 
     void Start()
     {
