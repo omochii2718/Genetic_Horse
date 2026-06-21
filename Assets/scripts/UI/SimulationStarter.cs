@@ -12,6 +12,7 @@ public class SimulationStarter : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private TextMeshProUGUI p; // UI用のTextMeshProUGUIに変更
     [SerializeField] private GameObject canvasObject; // 非アクティブにするCanvas
+    [SerializeField] private TextMeshProUGUI maxFitnessText; // 最大評価値表示用テキスト
 
     void Start()
     {
@@ -63,6 +64,18 @@ public class SimulationStarter : MonoBehaviour
             else
             {
                 Debug.LogWarning("Parameter Slider is not assigned on SimulationStarter. GeneticManager will run with default mutation rate.");
+            }
+
+            if (canvasObject != null)
+            {
+                // 終了時に再表示できるようにCanvasの参照を渡す
+                manager.canvasObject = canvasObject;
+            }
+
+            if (maxFitnessText != null)
+            {
+                // 最大評価値を表示できるようにテキストの参照を渡す
+                manager.maxFitnessText = maxFitnessText;
             }
         }
         else

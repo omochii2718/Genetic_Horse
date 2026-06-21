@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.CodeDom.Compiler;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class GeneticManager : MonoBehaviour
@@ -24,6 +25,9 @@ public class GeneticManager : MonoBehaviour
 
     public Slider Slider;
     public float mutationRate = 0.02f; // 突然変異率 (0.0 〜 1.0)
+    public GameObject canvasObject; // シミュレーション終了時に再表示するCanvas
+    public TextMeshProUGUI maxFitnessText; // 最大評価値表示用テキスト
+    private float overallBestFitness = float.MinValue; // シミュレーション全体の最大評価値
     Chromosome[] population = new Chromosome[populationSize];
     GameObject[] agents = new GameObject[populationSize];
     //agentsと染色体は
@@ -70,6 +74,11 @@ public class GeneticManager : MonoBehaviour
                 indexElite = i;
             }
             // 最も優れた個体のindexを保存
+        }
+
+        if (bestFitness > overallBestFitness)
+        {
+            overallBestFitness = bestFitness;
         }
 
         elite_weight += population[indexElite].fitness;
@@ -183,6 +192,14 @@ public class GeneticManager : MonoBehaviour
                 //SupabaseHorseUploader.Instance.SaveHorce(population[0].genes)
                 foreach  (GameObject agent in agents) {
                     Destroy(agent);
+                }
+                if (maxFitnessText != null)
+                {
+                    maxFitnessText.text = overallBestFitness.ToString("F2");
+                }
+                if (canvasObject != null)
+                {
+                    canvasObject.SetActive(true);
                 }
                 Destroy(this.gameObject);
             }
