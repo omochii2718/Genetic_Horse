@@ -31,13 +31,13 @@ public class SupabaseHorseUploader : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("•Û‘¶¬Œ÷: " + request.downloadHandler.text);
+            Debug.Log("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½: " + request.downloadHandler.text);
             onSuccess?.Invoke();
         }
         else
         {
             string errorMsg = request.error + " / " + request.downloadHandler.text;
-            Debug.LogError("•Û‘¶¸”s: " + errorMsg);
+            Debug.LogError("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½s: " + errorMsg);
             onError?.Invoke(errorMsg);
         }
     }
